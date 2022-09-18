@@ -1,10 +1,17 @@
+from bs4 import BeautifulSoup
+import requests
 import random
 
+url = 'https://meaningpedia.com/5-letter-words?show=all'
+req = requests.get(url)
+s = BeautifulSoup(req.content,'html.parser')
+find = s.find_all('li',class_='float-sm-left col-lg-3 col-md-2')
+words = [i.text for i in find]
+random_num = random.randint(0,len(words)-1)
+wordlist = words[random_num]
 
 print('Welcome to Wordle!')
-wordlist = ['range', 'great', 'paste', 'issue', 'inner',
-           'fuzzy', 'joint', 'laugh', 'learn', 'large', 'movie', 'pilot', 'plane', 'range', 'ready', 'shell', 'shoot',
-           'stock', 'money', 'fresh', 'chose', 'actor', 'about']
+
 # list of words
 
 def word_len_checker():
@@ -17,7 +24,7 @@ def word_len_checker():
 wins = 0
 def wordle():
     print()
-    word = random.choice(wordlist)  # takes random word in the word list
+    word = wordlist  # takes random word in the word list
     num_of_guesses = 6
 
     print(f'\033[0m{"Enter a 5 letter word"}')
