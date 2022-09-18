@@ -1,17 +1,21 @@
-from bs4 import BeautifulSoup
 import requests
 import random
 
-url = 'https://meaningpedia.com/5-letter-words?show=all'
-req = requests.get(url)
-s = BeautifulSoup(req.content,'html.parser')
-find = s.find_all('li',class_='float-sm-left col-lg-3 col-md-2')
-words = [i.text for i in find]
-random_num = random.randint(0,len(words)-1)
-wordlist = words[random_num]
+word_site = "https://www.mit.edu/~ecprice/wordlist.10000"
+
+response = requests.get(word_site)
+word = response.content.splitlines()
+
+random_num = random.randint(0,10000)
+
+word_list = str(word[random_num].decode())
+
+
+while len(word_list) != 5:
+    random_num = random.randint(0, 10000)
+    word_list = str(word[random_num].decode())
 
 print('Welcome to Wordle!')
-
 # list of words
 
 def word_len_checker():
@@ -24,7 +28,7 @@ def word_len_checker():
 wins = 0
 def wordle():
     print()
-    word = wordlist  # takes random word in the word list
+    word = word_list
     num_of_guesses = 6
 
     print(f'\033[0m{"Enter a 5 letter word"}')
